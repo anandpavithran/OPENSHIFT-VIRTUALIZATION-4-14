@@ -1,0 +1,22 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: network-1-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: myvm1
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: client-ns
+      podSelector:
+        matchLabels:
+          tier: front
+    - namespaceSelector:
+        matchLabels:
+          name: server-ns
+    ports:
+    - port: 8080
+      protocol: TCP
