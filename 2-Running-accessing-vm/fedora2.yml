@@ -1,90 +1,58 @@
-﻿apiVersion: kubevirt.io/v1
+apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
   name: fedora2
   namespace: test100
-  labels:
-    app: test2
-    vm.kubevirt.io/template: fedora-server-small
-    vm.kubevirt.io/template.namespace: openshift
-    vm.kubevirt.io/template.revision: '1'
-    vm.kubevirt.io/template.version: v0.26.0
 spec:
   dataVolumeTemplates:
-    - apiVersion: cdi.kubevirt.io/v1beta1
-      kind: DataVolume
-      metadata:
-        name: fedora-datavolume2
-      spec:
-        sourceRef:
-          kind: DataSource
-          name: fedora
+  - metadata:
+      name: fedora2-volume
+    spec:
+      source:
+        pvc:
+          name: fedora-e8c7861050c7
           namespace: openshift-virtualization-os-images
-        storage:
-          resources:
-            requests:
-              storage: 30Gi
+      storage:
+        resources:
+          requests:
+        storageClassName: nfs-storage
+  instancetype:
+    kind: virtualmachineclusterinstancetype
+    name: u1.medium
+  preference:
+    kind: virtualmachineclusterpreference
+    name: fedora
   running: true
   template:
-    metadata:
-      annotations:
-        vm.kubevirt.io/flavor: small
-        vm.kubevirt.io/os: fedora
-        vm.kubevirt.io/workload: server
-      labels:
-        kubevirt.io/domain: fedora2
-        kubevirt.io/size: small
     spec:
       architecture: amd64
       domain:
-        cpu:
-          cores: 1
-          sockets: 1
-          threads: 1
         devices:
           disks:
-            - disk:
-                bus: virtio
-              name: rootdisk
-            - disk:
-                bus: virtio
-              name: cloudinitdisk
-          interfaces:
-            - masquerade: {}
-              model: virtio
-              name: default
-          networkInterfaceMultiqueue: true
-          rng: {}
-        features:
-          acpi: {}
-          smm:
-            enabled: true
-        firmware:
-          bootloader:
-            efi: {}
+          - disk:
+              bus: virtio
+            name: fedora2-disk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
         machine:
           type: pc-q35-rhel9.2.0
-        memory:
-          guest: 2Gi
         resources: {}
-      networks:
-        - name: default
-          pod: {}
-      terminationGracePeriodSeconds: 180
       volumes:
-        - dataVolume:
-            name: fedora-datavolume2
-          name: rootdisk
-        - cloudInitConfigDrive:
-            userData: |-
-              #cloud-config
-              user: fedora
-              password: redhat123
-              chpasswd: { expire: False }
-              packages:
-                - httpd
-              runcmd:
-                - systemctl enable httpd
-                - systemctl start httpd
-                - echo "HelloWorld from fedora3" >> /var/www/html/index.html
-          name: cloudinitdisk
+      - dataVolume:
+          name: fedora2-volume
+        name: fedora2-disk
+      - cloudInitConfigDrive:
+          userData: |
+            #cloud-config
+            user: fedora2
+            password: redhat123
+            chpasswd:
+              expire: false
+            packages:
+             - httpd
+            runcmd:
+             - systemctl enable httpd
+             - systemctl start httpd
+             - echo "Helloworld from Fedora2" >> /var/www/html/index.html    
+        name: cloudinitdisk
