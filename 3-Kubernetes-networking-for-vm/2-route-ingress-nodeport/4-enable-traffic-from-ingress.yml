@@ -1,0 +1,7 @@
+oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
+oc whoami --show-console
+oc new-project test100
+oc get namespace openshift-ingress -o yaml
+vi networkpolicy.yml
+oc create -f networkpolicy.yml
+END
