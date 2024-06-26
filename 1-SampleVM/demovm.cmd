@@ -20,12 +20,13 @@ oc login -u developer  -p developer https://api.ocp4.example.com:6443
 oc new-project test100
 oc apply -f fedora1.yml
 
+oc login -u admin -p redhatocp https://api.ocp4.example.com:6443
 oc get pod -A | grep cdi
 
 oc get datavolume,pvc
-oc get pod -A | grep cdi
 
 oc get pod -A | grep cdi
+oc get datavolume,pvc
 
 oc get all -n test100
 
