@@ -1,0 +1,58 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: fedora2
+  namespace: test100
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: fedora2-volume
+    spec:
+      source:
+        pvc:
+          name: fedora-e8c7861050c7
+          namespace: openshift-virtualization-os-images
+      storage:
+        resources:
+          requests:
+        storageClassName: nfs-storage
+  instancetype:
+    kind: virtualmachineclusterinstancetype
+    name: u1.medium
+  preference:
+    kind: virtualmachineclusterpreference
+    name: fedora
+  running: true
+  template:
+    spec:
+      architecture: amd64
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: fedora2-disk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+        machine:
+          type: pc-q35-rhel9.2.0
+        resources: {}
+      volumes:
+      - dataVolume:
+          name: fedora2-volume
+        name: fedora2-disk
+      - cloudInitConfigDrive:
+          userData: |
+            #cloud-config
+            user: fedora2
+            password: redhat123
+            chpasswd:
+              expire: false
+            packages:
+             - httpd
+            runcmd:
+             - systemctl enable httpd
+             - systemctl start httpd
+             - echo "Helloworld from Fedora2" >> /var/www/html/index.html    
+        name: cloudinitdisk

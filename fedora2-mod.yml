@@ -81,4 +81,10 @@ spec:
               user: fedora
               password: redhat123
               chpasswd: { expire: False }
+              packages:
+                - httpd
+              runcmd:
+                - systemctl enable httpd
+                - systemctl start httpd
+                - echo "HelloWorld from fedora3" >> /var/www/html/index.html
           name: cloudinitdisk

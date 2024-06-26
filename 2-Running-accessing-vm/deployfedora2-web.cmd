@@ -3,14 +3,25 @@ oc whoami --show-console
 oc project
 oc get nodes -o wide
 oc new-project test100
-vim fedora1.yml
-oc apply -f fedora1.yml
-oc get pod -A | grep cdi
-oc get pod -A | grep cdi
-oc get pod -A | grep cdi
-oc get pod -A | grep cdi
+vim fedora2.yml
+oc apply -f fedora2.yml
+
+
+
 oc get all -n test100
 
 
 
+oc get pod -o wide
 
+
+oc get vm
+
+
+
+oc get vmi
+
+./virtctl console fedora2
+
+
+END
