@@ -55,4 +55,7 @@ spec:
              - systemctl enable httpd
              - systemctl start httpd
              - echo "Helloworld from Fedora1" >> /var/www/html/index.html    
+             - systemctl enable sshd
+             - sed -i 's/no/yes/g' /etc/ssh/sshd_config.d/50-cloud-init.conf  
+             - systemctl restart sshd
         name: cloudinitdisk

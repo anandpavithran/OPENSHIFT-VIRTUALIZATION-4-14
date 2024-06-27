@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    kubevirt.io: virt-launcher
+    kubevirt.io/created-by: 9acc6553-f722-4b29-9917-3b49bc107363
+    kubevirt.io/domain: fedora1
+    kubevirt.io/nodeName: worker01
+    vm.kubevirt.io/name: fedora1
+  name: fedora1
+spec:
+  ports:
+  - port: 22
+    protocol: TCP
+    targetPort: 22
+  selector:
+    kubevirt.io/domain: fedora1
+  type: LoadBalancer
+status:
+  loadBalancer: {}
