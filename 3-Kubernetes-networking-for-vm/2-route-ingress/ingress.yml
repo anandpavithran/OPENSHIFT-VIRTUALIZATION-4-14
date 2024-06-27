@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fedora1
+spec:
+  rules:
+    - host: fedora1-test100.apps.ocp4.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fedora1
+                port:
+                  number: 80
