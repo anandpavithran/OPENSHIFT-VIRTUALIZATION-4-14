@@ -12,8 +12,7 @@ oc get operatorgroup -A
 oc get subscription -A
 vim  subscription.yml
 oc apply -f subscription.yml
-oc get subscription -A
-oc get csv -A
+oc get sub,installplan,csv -n openshift-cnv
 vim hcooperator.yml
 oc apply -f hcooperator.yml
 
