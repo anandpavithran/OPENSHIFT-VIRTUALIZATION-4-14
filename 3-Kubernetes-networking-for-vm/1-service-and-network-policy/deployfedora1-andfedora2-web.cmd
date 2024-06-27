@@ -21,10 +21,11 @@ oc create service clusterip fedora1 --tcp 80:80
 oc create service clusterip fedora2 --tcp 80:80
 
 Apply app: myvm1 labels to service fedora1  and app: myvm2 to service fedora2  in section spec.selector
-
+oc get endpoints
 oc edit svc fedora1
+oc get endpoints
 oc edit svc fedora2
-
+oc get endpoints
 oc get vmi
 
 Take console of vm in two terminals and execute curl http://ip-fedora1 in fedora2 VMI ,curl http://ip-fedora2 in fedora1 VMI

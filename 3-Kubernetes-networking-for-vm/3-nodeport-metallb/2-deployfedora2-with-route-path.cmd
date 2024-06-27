@@ -15,7 +15,11 @@ oc create service clusterip fedora2 --tcp 80:80
 
 Apply app: myvm2 labels to service fedora2  in section spec.selector
 
+oc get endpoints 
+
 oc edit svc fedora2
+
+oc get endpoints
 
 oc get vmi
 

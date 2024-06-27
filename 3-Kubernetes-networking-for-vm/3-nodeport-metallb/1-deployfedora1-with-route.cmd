@@ -17,11 +17,11 @@ Apply app: myvm1 labels to service fedora1  in section spec.selector
 
 oc edit svc fedora1
 
+oc get endpoints
+
 oc get vmi
 
-oc apply -f ingress.yml
-
-oc get ingress
+oc expose svc fedora1
 
 oc get route
 
