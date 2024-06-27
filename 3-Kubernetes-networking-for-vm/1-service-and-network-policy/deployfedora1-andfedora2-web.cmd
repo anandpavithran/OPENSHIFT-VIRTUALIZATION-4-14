@@ -20,8 +20,9 @@ oc delete vmi fedora2
 oc create service clusterip fedora1 --tcp 80:80
 oc create service clusterip fedora2 --tcp 80:80
 
-Apply app: myvm1 labels to service fedora1  and app: myvm2 to service fedora2  in section spec.selector
 oc get endpoints
+
+Apply app: myvm1 labels to service fedora1  and app: myvm2 to service fedora2  in section spec.selector
 oc edit svc fedora1
 oc get endpoints
 oc edit svc fedora2

@@ -13,9 +13,13 @@ oc delete vmi fedora1
 
 oc create service clusterip fedora1 --tcp 80:80
 
+oc get endpoints
+
 Apply app: myvm1 labels to service fedora1  in section spec.selector
 
 oc edit svc fedora1
+
+oc get endpoints
 
 oc get vmi
 
