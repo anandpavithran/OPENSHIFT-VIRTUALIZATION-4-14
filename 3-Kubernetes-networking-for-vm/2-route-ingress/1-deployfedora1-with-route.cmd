@@ -25,6 +25,28 @@ oc get route
 
 curl http://
 
+Enable Traffic from router pods in OPENSHIFT-INGRESS
+
+oc get networkpolicy
+
+cat deny-all-networkpolicy.yml
+
+oc apply -f deny-all-networkpolicy.yml
+oc get networkpolicy
+
+curl http://fedora1-test100.apps.ocp4.example.com
+
+oc get namespace openshift-ingress -o yaml
+cat  allow-from-openshift-ingress-networkpolicy.yml
+oc apply -f allow-from-openshift-ingress-networkpolicy.yml
+
+curl http://fedora1-test100.apps.ocp4.example.com
+
+oc delete networkpolicies.networking.k8s.io allow-from-openshift-ingress
+
+curl http://fedora1-test100.apps.ocp4.example.com
+
+
 oc delete vm fedora1
 oc delete project test100
 END
