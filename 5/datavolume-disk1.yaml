@@ -1,0 +1,15 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: fedora1-disk1-datavolume
+  namespace: test100
+spec:
+  preallocation: false
+  source:
+    http:
+      url: http://utility.lab.example.com:8080/openshift4/images/web1-disk1.img
+  storage:
+    resources:
+      requests:
+        storage: 15Mi
+    storageClassName: nfs-storage
