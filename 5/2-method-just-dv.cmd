@@ -19,8 +19,18 @@ oc get pvc
 
 oc get pv
 
+scp web1-disk1.img root@utility:/var/www/html/openshift4/images/web1-disk1.img
+
 
 ssh root@utility #list
+
+oc create -f datavolume-disk1.yaml 
+
+oc get dv
+
+oc get pvc
+
+oc get pv
 
 ./virtctl console fedora1 #NO disk inside
 

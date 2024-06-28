@@ -9,13 +9,13 @@ spec:
       name: fedora2-volume
     spec:
       source:
-        pvc:
-          name: fedora-e8c7861050c7
-          namespace: openshift-virtualization-os-images
+       http:
+        url: http://utility.lab.example.com:8080/openshift4/images/fedora34.qcow2
       storage:
         resources:
           requests:
-        storageClassName: nfs-storage
+            storage: 10Gi
+        storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
   instancetype:
     kind: virtualmachineclusterinstancetype
     name: u1.medium
