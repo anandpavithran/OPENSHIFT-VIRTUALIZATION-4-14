@@ -14,7 +14,8 @@ spec:
       storage:
         resources:
           requests:
-            storage: 10Gi
+            storage: 30Gi
+        volumeMode: Block
         storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
   instancetype:
     kind: virtualmachineclusterinstancetype
