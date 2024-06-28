@@ -1,16 +1,16 @@
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: fedora2
+  name: rhel2
   namespace: test100
 spec:
   dataVolumeTemplates:
   - metadata:
-      name: fedora2-volume
+      name: rhel2-volume
     spec:
       source:
        http:
-        url: http://utility.lab.example.com:8080/openshift4/images/fedora34.qcow2
+        url: http://utility.lab.example.com:8080/openshift4/images/rhel9-helloworld.qcow2
       storage:
         resources:
           requests:
@@ -32,7 +32,7 @@ spec:
           disks:
           - disk:
               bus: virtio
-            name: fedora2-disk
+            name: rhel2-disk
           - disk:
               bus: virtio
             name: cloudinitdisk
@@ -41,19 +41,13 @@ spec:
         resources: {}
       volumes:
       - dataVolume:
-          name: fedora2-volume
-        name: fedora2-disk
+          name: rhel2-volume
+        name: rhel2-disk
       - cloudInitConfigDrive:
           userData: |
             #cloud-config
-            user: fedora2
+            user: rhel2
             password: redhat123
             chpasswd:
               expire: false
-            packages:
-             - httpd
-            runcmd:
-             - systemctl enable httpd
-             - systemctl start httpd
-             - echo "Helloworld from Fedora2" >> /var/www/html/index.html    
         name: cloudinitdisk
