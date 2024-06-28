@@ -1,0 +1,16 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: fedora1-disk1-datavolume
+  namespace: test100
+spec:
+  preallocation: false
+  source:
+    pvc:
+     name: fedora1-web-disk1
+     namespace: test100
+  storage:
+     resources:
+       requests:
+         storage: 15Mi
+     storageClassName: nfs-storage
