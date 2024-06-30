@@ -1,9 +1,9 @@
 apiVersion: snapshot.kubevirt.io/v1alpha1
 kind: VirtualMachineSnapshot
 metadata:
-  name: fedora1-snapshot-30-06-2024
+  name: rhel2-snapshot-30-06-2024
 spec:
   source:
     apiGroup: kubevirt.io
     kind: VirtualMachine
-    name: fedora1
+    name: rhel2

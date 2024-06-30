@@ -1,0 +1,50 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: rhel2
+  namespace: test100
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: rhel2-volume
+    spec:
+      source:
+       http:
+        url: http://utility.lab.example.com:8080/openshift4/images/rhel9-helloworld.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 20Gi
+        volumeMode: Block
+        storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+  instancetype:
+    kind: virtualmachineclusterinstancetype
+    name: u1.small
+  running: true
+  template:
+    spec:
+      architecture: amd64
+      domain:
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: rhel2-disk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+        machine:
+          type: pc-q35-rhel9.2.0
+        resources: {}
+      volumes:
+      - dataVolume:
+          name: rhel2-volume
+        name: rhel2-disk
+      - cloudInitConfigDrive:
+          userData: |
+            #cloud-config
+            user: rhel2
+            password: redhat123
+            chpasswd:
+              expire: false
+        name: cloudinitdisk
