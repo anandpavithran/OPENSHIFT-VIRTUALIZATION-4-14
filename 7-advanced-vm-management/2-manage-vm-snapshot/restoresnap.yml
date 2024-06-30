@@ -1,0 +1,10 @@
+apiVersion: snapshot.kubevirt.io/v1alpha1
+kind: VirtualMachineRestore
+metadata:
+  name: fedora1-restore
+spec:
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: fedora1
+  virtualMachineSnapshotName: fedora1-snapshot-30-06-2024
