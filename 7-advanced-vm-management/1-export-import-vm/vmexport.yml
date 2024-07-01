@@ -1,0 +1,11 @@
+apiVersion: export.kubevirt.io/v1alpha1
+kind: VirtualMachineExport
+metadata:
+  name: rhel2-export
+  namespace: test100
+spec:
+  source:
+   apiGroup: "kubevirt.io"
+   kind: VirtualMachine
+   name: rhel2
+  ttlDuration: 1h
