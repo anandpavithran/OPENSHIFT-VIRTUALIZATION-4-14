@@ -1,0 +1,61 @@
+﻿apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: rhel2-clone
+  namespace: test100
+spec:
+  dataVolumeTemplates:
+    - apiVersion: cdi.kubevirt.io/v1beta1
+      kind: DataVolume
+      metadata:
+        name: rhel2-volume-jn5gw
+        namespace: test100
+      spec:
+        source:
+          pvc:
+            name: rhel2-volume
+            namespace: test100
+        storage:
+          resources:
+            requests:
+              storage: 10Gi
+          volumeMode: Block
+          storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+
+  running: true
+  template:
+    metadata:
+      labels:
+        vm.kubevirt.io/name: rhel2-clone
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+            - disk:
+                bus: virtio
+              name: rhel2-disk
+            - disk:
+                bus: virtio
+              name: cloudinitdisk
+        machine:
+          type: pc-q35-rhel9.2.0
+        resources:
+          requests:
+            memory: 2Gi
+      volumes:
+        - dataVolume:
+            name: rhel2-volume-jn5gw
+          name: rhel2-disk
+        - cloudInitConfigDrive:
+            userData: |
+              #cloud-config
+              user: rhel2
+              password: redhat123
+              chpasswd:
+                expire: false
+          name: cloudinitdisk
