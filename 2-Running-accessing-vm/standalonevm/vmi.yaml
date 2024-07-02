@@ -1,0 +1,66 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachineInstance
+metadata:
+  name: rhel2
+  namespace: test100
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: rhel2-volume
+    spec:
+      source:
+        pvc:
+          name: rhel2-volume
+          namespace: test100
+      storage:
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Block
+        storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+  architecture: amd64
+  domain:
+    cpu:
+      cores: 1
+      model: host-model
+      sockets: 1
+      threads: 1
+    devices:
+      disks:
+      - disk:
+          bus: virtio
+        name: rhel2-disk
+      - disk:
+          bus: virtio
+        name: cloudinitdisk
+      interfaces:
+      - masquerade: {}
+        name: default
+    features:
+      acpi:
+        enabled: true
+    firmware:
+      uuid: 2d0190db-123c-5885-87c5-7310dbe96db9
+    machine:
+      type: pc-q35-rhel9.2.0
+    resources:
+      requests:
+        memory: 2Gi
+  evictionStrategy: LiveMigrate
+  networks:
+  - name: default
+    pod: {}
+  nodeSelector:
+    env: dev
+  volumes:
+  - dataVolume:
+      name: rhel2-volume
+    name: rhel2-disk
+  - cloudInitConfigDrive:
+      userData: |
+        #cloud-config
+        user: rhel2
+        password: redhat123
+        chpasswd:
+          expire: false
+    name: cloudinitdisk

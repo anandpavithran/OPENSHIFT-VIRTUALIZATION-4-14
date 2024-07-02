@@ -1,0 +1,15 @@
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: rhel2-volume
+  namespace: test100
+spec:
+  source:
+    http:
+      url: http://utility.lab.example.com:8080/openshift4/images/rhel9-helloworld.qcow2
+  storage:
+    resources:
+      requests:
+        storage: 10Gi
+    storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+    volumeMode: Block
