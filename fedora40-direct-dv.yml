@@ -1,0 +1,53 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: fedora2
+  namespace: test100
+spec:
+  dataVolumeTemplates:
+  - metadata:
+      name: fedora2-volume
+    spec:
+      source:
+       http:
+        url: https://download.fedoraproject.org/pub/fedora/linux/releases/40/Cloud/x86_64/images/Fedora-Cloud-Base-Generic.x86_64-40-1.14.qcow2
+      storage:
+        resources:
+          requests:
+            storage: 20Gi
+        volumeMode: Block
+        storageClassName: ocs-external-storagecluster-ceph-rbd-virtualization
+  running: true
+  template:
+    spec:
+      architecture: amd64
+      domain:
+        cpu:
+          cores: 1
+          sockets: 1
+          threads: 1
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: fedora2-disk
+          - disk:
+              bus: virtio
+            name: cloudinitdisk
+        machine:
+          type: pc-q35-rhel9.2.0
+        resources: 
+         requests:
+          memory: 4Gi
+      volumes:
+      - dataVolume:
+          name: fedora2-volume
+        name: fedora2-disk
+      - cloudInitConfigDrive:
+          userData: |
+            #cloud-config
+            user: fedora2
+            password: redhat123
+            chpasswd:
+              expire: false
+        name: cloudinitdisk
