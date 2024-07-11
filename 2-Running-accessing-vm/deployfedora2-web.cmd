@@ -49,6 +49,9 @@ Login to console as developer.Try to list project and VM
 
 oc create rolebinding view --clusterrole=view --user=developer -n test100
 
+#Check the console again
+
+
 oc delete vm fedora2
 oc delete project test100
 END

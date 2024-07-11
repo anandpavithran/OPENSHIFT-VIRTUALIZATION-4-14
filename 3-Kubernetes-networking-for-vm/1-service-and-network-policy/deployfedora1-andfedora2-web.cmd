@@ -10,9 +10,12 @@ oc apply -f fedora2.yml
 
 Apply app: myvm1 labels to vm fedora1 VM and app: myvm2 to vm fedora2 VM in section spec.template.metadata.labels and delete both VM instances [VMI]
 
-oc edit vm fedora1
+#oc edit vm fedora1
 
-oc edit vm fedora2
+oc apply -f fedora1-with-label.yml
+
+#oc edit vm fedora2
+oc apply -f fedora2-with-label.yml
 
 oc delete vmi fedora1
 oc delete vmi fedora2
